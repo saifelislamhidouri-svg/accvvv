@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>T10 MEHEDI SPAM</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+    :root {
+      --green: #00ff88;
+      --red: #ff3355;
+      --yellow: #ffcc00;
+      --bg: #0a0a0f;
+      --panel: #0f0f1a;
+      --border: #1a1a2e;
+      --text: #c0c0d0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── HEADER ── */
+    header {
+      width: 100%;
+      text-align: center;
+      padding: 28px 20px 18px;
+      background: linear-gradient(180deg, #0d0d20 0%, transparent 100%);
+      border-bottom: 1px solid #1a1a3a;
+      position: relative;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,255,136,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(22px, 5vw, 40px);
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #00ff88, #00ccff, #00ff88);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .subtitle {
+      color: #555577;
+      font-size: 12px;
+      letter-spacing: 6px;
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+
+    /* ── MAIN ── */
+    main {
+      width: 100%;
+      max-width: 860px;
+      padding: 28px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 12px;
+      text-align: center;
+    }
+
+    .stat-card .val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .stat-card .lbl {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #555577;
+      margin-top: 5px;
+      text-transform: uppercase;
+    }
+
+    .val-total   { color: var(--yellow); }
+    .val-success { color: var(--green); }
+    .val-fail    { color: var(--red); }
+    .val-done    { color: #00ccff; }
+
+    /* ── FORM ── */
+    .form-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+    }
+
+    .form-panel label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #555577;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-row input {
+      flex: 1;
+      background: #060610;
+      border: 1px solid #1a1a3a;
+      border-radius: 8px;
+      color: var(--green);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 16px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .input-row input:focus { border-color: var(--green); }
+    .input-row input::placeholder { color: #333355; }
+
+    .btn-spam {
+      background: linear-gradient(135deg, #00cc66, #00ff88);
+      border: none;
+      border-radius: 8px;
+      color: #050510;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 12px 28px;
+      text-transform: uppercase;
+      transition: transform .15s, box-shadow .15s;
+      white-space: nowrap;
+    }
+
+    .btn-spam:hover  { transform: translateY(-1px); box-shadow: 0 0 20px rgba(0,255,136,.35); }
+    .btn-spam:active { transform: translateY(0); }
+    .btn-spam:disabled {
+      background: #1a1a2e;
+      color: #333355;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .btn-clear {
+      background: transparent;
+      border: 1px solid #1a1a3a;
+      border-radius: 8px;
+      color: #555577;
+      cursor: pointer;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      padding: 12px 18px;
+      transition: border-color .2s, color .2s;
+    }
+
+    .btn-clear:hover { border-color: var(--red); color: var(--red); }
+
+    /* ── PROGRESS ── */
+    .progress-wrap {
+      height: 4px;
+      background: #0f0f1a;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 16px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00ff88, #00ccff);
+      border-radius: 4px;
+      transition: width .15s;
+      box-shadow: 0 0 8px rgba(0,255,136,.5);
+    }
+
+    .progress-label {
+      font-size: 11px;
+      color: #444466;
+      margin-top: 6px;
+      text-align: right;
+    }
+
+    /* ── STATUS BADGE ── */
+    .status-badge {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: #0f0f1a;
+      border: 1px solid #1a1a3a;
+      color: #444466;
+      margin-top: 10px;
+    }
+
+    .status-badge.running  { border-color: var(--green); color: var(--green); animation: pulse 1.2s ease-in-out infinite; }
+    .status-badge.done     { border-color: var(--yellow); color: var(--yellow); }
+    .status-badge.error    { border-color: var(--red); color: var(--red); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
+
+    /* ── CONSOLE ── */
+    .console-wrap {
+      background: #050510;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .console-header {
+      background: #0a0a18;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: var(--red); }
+    .dot-y { background: var(--yellow); }
+    .dot-g { background: var(--green); }
+
+    .console-title {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #333355;
+      text-transform: uppercase;
+      margin-left: auto;
+    }
+
+    .console-body {
+      height: 340px;
+      overflow-y: auto;
+      padding: 14px 16px;
+      font-size: 13px;
+      line-height: 1.65;
+      scroll-behavior: smooth;
+    }
+
+    .console-body::-webkit-scrollbar { width: 4px; }
+    .console-body::-webkit-scrollbar-track { background: transparent; }
+    .console-body::-webkit-scrollbar-thumb { background: #1a1a3a; border-radius: 4px; }
+
+    .log-line { display: flex; gap: 8px; }
+    .log-time { color: #333355; flex-shrink: 0; }
+    .log-uid  { color: #4488cc; flex-shrink: 0; min-width: 120px; }
+    .log-ok   { color: var(--green); }
+    .log-err  { color: var(--red); }
+    .log-info { color: var(--yellow); }
+    .log-sys  { color: #00ccff; }
+
+    .empty-console {
+      color: #222244;
+      text-align: center;
+      margin-top: 80px;
+      font-size: 13px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      font-size: 11px;
+      color: #222244;
+      letter-spacing: 2px;
+      padding: 16px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">T10 MEHEDI SPAM</div>
+  <div class="subtitle">Friend Request Spammer &bull; Async Engine</div>
+</header>
+
+<main>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="val val-total" id="s-total">{{ total }}</div>
+      <div class="lbl">Total Accs</div>
+    </div>
+    <div class="stat-card">
+      <div class="val val-done" id="s-done">0</div>
+      <div class="lbl">Sent</div>
+    </div>
+    <div class="stat-card">
+      <div class="val val-success" id="s-success">0</div>
+      <div class="lbl">Success</div>
+    </div>
+    <div class="stat-card">
+      <div class="val val-fail" id="s-fail">0</div>
+      <div class="lbl">Failed</div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-panel">
+    <label>Target Friend UID</label>
+    <div class="input-row">
+      <input id="uid-input" type="text" placeholder="Enter Target UID..."/>
+      <button class="btn-spam" id="btn-start" onclick="startSpam()">SPAM</button>
+      <button class="btn-clear" onclick="clearConsole()">CLEAR</button>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-bar" id="prog-bar"></div>
+    </div>
+    <div class="progress-label" id="prog-label">0 / {{ total }}</div>
+    <div>
+      <span class="status-badge" id="status-badge">IDLE</span>
+    </div>
+  </div>
+
+  <!-- CONSOLE -->
+  <div class="console-wrap">
+    <div class="console-header">
+      <div class="dot dot-r"></div>
+      <div class="dot dot-y"></div>
+      <div class="dot dot-g"></div>
+      <div class="console-title">Output Console</div>
+    </div>
+    <div class="console-body" id="console">
+      <div class="empty-console" id="empty-msg">[ Waiting for input... ]</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>T10 MEHEDI SPAM &bull; Powered by Python + Flask &bull; Async aiohttp Engine</footer>
+
+<script>
+  const totalAccs = {{ total }};
+  let es = null;
+  let running = false;
+
+  function ts() {
+    const d = new Date();
+    return d.toTimeString().split(' ')[0];
+  }
+
+  function appendLog(cls, uid, status, msg) {
+    const c = document.getElementById('console');
+    const empty = document.getElementById('empty-msg');
+    if (empty) empty.remove();
+
+    const line = document.createElement('div');
+    line.className = 'log-line';
+    line.innerHTML = `<span class="log-time">[${ts()}]</span>`
+      + (uid ? `<span class="log-uid">${uid}</span>` : '')
+      + (status ? `<span class="${cls}">[${status}]</span> ` : '')
+      + `<span class="${cls}">${escHtml(msg)}</span>`;
+    c.appendChild(line);
+    c.scrollTop = c.scrollHeight;
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function setStatus(st) {
+    const b = document.getElementById('status-badge');
+    b.className = 'status-badge ' + st;
+    b.textContent = st.toUpperCase();
+  }
+
+  function updateStats(success, fail, done) {
+    document.getElementById('s-done').textContent    = done;
+    document.getElementById('s-success').textContent = success;
+    document.getElementById('s-fail').textContent    = fail;
+    const pct = totalAccs > 0 ? (done / totalAccs * 100).toFixed(1) : 0;
+    document.getElementById('prog-bar').style.width  = pct + '%';
+    document.getElementById('prog-label').textContent = `${done} / ${totalAccs}`;
+  }
+
+  function clearConsole() {
+    const c = document.getElementById('console');
+    c.innerHTML = '<div class="empty-console" id="empty-msg">[ Console cleared ]</div>';
+    updateStats(0, 0, 0);
+    setStatus('idle');
+    document.getElementById('prog-bar').style.width = '0%';
+    document.getElementById('prog-label').textContent = `0 / ${totalAccs}`;
+  }
+
+  function startSpam() {
+    if (running) return;
+    const uid = document.getElementById('uid-input').value.trim();
+    if (!uid) { alert('Target UID daon!'); return; }
+
+    running = true;
+    document.getElementById('btn-start').disabled = true;
+    setStatus('running');
+    updateStats(0, 0, 0);
+
+    const empty = document.getElementById('empty-msg');
+    if (empty) empty.remove();
+
+    appendLog('log-sys', '', '', `▶ Starting spam → Target UID: ${uid} | Accounts: ${totalAccs}`);
+
+    if (es) { es.close(); es = null; }
+
+    es = new EventSource(`/stream?uid=${encodeURIComponent(uid)}`);
+
+    es.onmessage = (e) => {
+      const d = JSON.parse(e.data);
+
+      if (d.type === 'start') {
+        appendLog('log-info', '', '●', `Sending requests with ${d.total} accounts...`);
+        return;
+      }
+
+      if (d.type === 'done') {
+        appendLog('log-sys', '', '◆', `DONE! Success: ${d.success} | Fail: ${d.fail} | Total: ${d.total}`);
+        updateStats(d.success, d.fail, d.total);
+        setStatus('done');
+        running = false;
+        document.getElementById('btn-start').disabled = false;
+        es.close();
+        return;
+      }
+
+      const isOk = d.type === 'success';
+      appendLog(
+        isOk ? 'log-ok' : 'log-err',
+        d.uid,
+        d.status,
+        d.msg.substring(0, 120)
+      );
+      updateStats(d.success, d.fail, d.done);
+    };
+
+    es.onerror = () => {
+      appendLog('log-err', '', 'ERR', 'Connection error. Spam stopped.');
+      setStatus('error');
+      running = false;
+      document.getElementById('btn-start').disabled = false;
+      if (es) { es.close(); es = null; }
+    };
+  }
+
+  document.getElementById('uid-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') startSpam();
+  });
+</script>
+</body>
+</html>
